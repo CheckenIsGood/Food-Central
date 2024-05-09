@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <h2>Reviews For {{ name }}</h2>
+    <hr>
+    <table class="table table-striped">
+        <tbody>
+        {% for review in reviews %}
+            <h1>Posted By {{ review["poster_username"] }}</h1>
+            <p class="title">Score: {{ review["score"] }}/5</p>
+            <p>{{ review["review"] }}</p>
+            <form class="form-inline" action="/reviewlike" method="post" id="rate">
+                <input id="likevalue" name="like" type="hidden" value="1">
+                <input name="review_id" type="hidden" value="{{ review["id"] }}">
+                <button type="submit" id="buttonlike" class="btn btn-outline-primary">Like</button>
+            </form>
+            <form class="form-inline" action="/reviewlike" method="post" id="rate">
+                <input id="likevalue" name="like" type="hidden" value="-1">
+                <input name="review_id" type="hidden" value="{{ review["id"] }}">
+                <button type="submit" id="buttondislike" class="btn btn-outline-primary">Dislike</button>
+            </form>
+            <hr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    {% if type == "reviewer" or type == "user" %}
+        <form class="form-inline d-flex justify-content-center md-form form-sm mt-0" action="/restaurant" method="post">
+            <input class="form-control form-control-sm ml-3 w-75" name="name" type="text" placeholder="Search"
+            aria-label="Search">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </form>
+        <p></p>
+        <table class="table table-striped">
+            <tbody>
+                {% for restaurant in restaurants %}
+                    <div class="card">
+                        <h1>{{ restaurant["name"] }}</h1>
+                        <p class="title">Restaurant ID: {{ restaurant["id"] }}</p>
+                        <p>Location: {{ restaurant["location"] }}</p>
+                        <p>{{ restaurant["description"] }}</p>
+                        <form class="form-inline" action="/like" method="post" id="rate">
+                            <input id="likevalue" name="like" type="hidden" value="1">
+                            <input name="restaurant_id" type="hidden" value="{{ restaurant["id"] }}">
+                            <button type="submit" id="buttonlike" class="btn btn-outline-primary">Like</button>
+                        </form>
+                        <form class="form-inline" action="/like" method="post" id="rate">
+                            <input id="likevalue" name="like" type="hidden" value="-1">
+                            <input name="restaurant_id" type="hidden" value="{{ restaurant["id"] }}">
+                            <button type="submit" id="buttondislike" class="btn btn-outline-primary">Dislike</button>
+                        </form>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <form action="/restaurant" method="post">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="location" name="address" placeholder="Address" type="text">
+            </div>
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="location" name="city" placeholder="City" type="text">
+            </div>
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="location" name="state" placeholder="State" type="text">
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" id="description" name="description" placeholder="Description" type="text">
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" name="name" placeholder="Name" type="text">
+            </div>
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+    {% endif %}
+{% endblock %}

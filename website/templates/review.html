@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    {% if type == "user" %}
+        <form class="form-inline d-flex justify-content-center md-form form-sm mt-0" action="/review" method="post">
+            <input class="form-control form-control-sm ml-3 w-75" name="restaurant_id" type="text" placeholder="Restaurant ID"
+            aria-label="Search">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </form>
+    {% elif type == "owner" %}
+        <form action="/review" method="post">
+            <div class="mb-3">
+                <select class="form-select mx-auto w-auto" name="restaurant_id">
+                    <option disabled selected>Choose restaurant</option>
+                    {% for restaurant in restaurants %}
+                        <option value={{ restaurant.id }}>{{ restaurant.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    {% else %}
+        <form action="/review" method="post">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location">Restaurant ID</label>
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="location" name="restaurant_id" placeholder="ID" type="number">
+                </div>
+                <div class="form-group">
+                    <label for="score">Score</label>
+                    <input class="form-control mx-auto w-auto" id="score" name="score" placeholder="Score" type="number" min="1" max="5">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reviewText">Review</label>
+                <textarea class="form-control mx-auto w-auto" id="reviewText" name="review" rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Post</button>
+        </form>
+    {% endif %}
+{% endblock %}
